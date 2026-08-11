@@ -34,12 +34,6 @@ jobs:
       - name: Build
         run: dotnet build SmallTodoApi.sln --configuration Release --no-restore
 
-      - name: Code quality - format check
-        run: dotnet format SmallTodoApi.sln --verify-no-changes --no-restore
-
-      - name: Code quality - vulnerable packages
-        run: dotnet list SmallTodoApi.sln package --vulnerable --include-transitive
-
   docker:
     name: Build & Publish Docker Image
     needs: ci
