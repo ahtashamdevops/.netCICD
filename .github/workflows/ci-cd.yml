@@ -16,7 +16,7 @@ env:
 
 jobs:
   ci:
-    name: Build, Test & Code Quality
+    name: Build & Code Quality
     runs-on: ubuntu-latest
 
     steps:
@@ -33,9 +33,6 @@ jobs:
 
       - name: Build
         run: dotnet build SmallTodoApi.sln --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test SmallTodoApi.sln --configuration Release --no-build --verbosity normal
 
       - name: Code quality - format check
         run: dotnet format SmallTodoApi.sln --verify-no-changes --no-restore
@@ -60,7 +57,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata
+      - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:

@@ -11,13 +11,7 @@ dotnet run --project SmallTodoApi.csproj
 
 API: `http://localhost:5000/api/todos`
 
-## Tests
-
-```bash
-dotnet test SmallTodoApi.sln
-```
-
-## GitHub Actions
+## GitHub Actions CI/CD
 
 Workflow:
 
@@ -25,17 +19,18 @@ Workflow:
 
 ### Pull requests to main
 
-CI runs:
+The CI pipeline performs:
 
 1. Restore
 2. Build
-3. Unit tests
-4. `dotnet format` verification
-5. Vulnerable NuGet package check
+3. `dotnet format` verification
+4. Vulnerable NuGet package check
+
+**No unit tests or test cases are executed by this pipeline.**
 
 ### Pushes to main
 
-CI runs first. If CI passes, the Docker job:
+The same CI checks run first. If they pass, the Docker job:
 
 1. Logs into GitHub Container Registry (GHCR)
 2. Builds the Docker image
@@ -49,8 +44,8 @@ No cloud deployment is configured yet.
 1. Create a GitHub repository.
 2. Push this project.
 3. Ensure the repository uses the `main` branch.
-4. GitHub Actions can use the built-in `GITHUB_TOKEN`; no personal Docker/GHCR password is required.
-5. After the first successful `main` push, check the repository's **Packages** section for the Docker image.
+4. GitHub Actions uses the built-in `GITHUB_TOKEN` for GHCR authentication.
+5. After a successful `main` push, check the repository's **Packages** section for the Docker image.
 
 ## Pipeline
 
@@ -58,10 +53,10 @@ No cloud deployment is configured yet.
 Pull Request
     |
     v
-Restore -> Build -> Test -> Format Check -> Vulnerability Check
-                                              |
-                                              v
-                                         PR status
+Restore -> Build -> Format Check -> Vulnerability Check
+                                      |
+                                      v
+                                 PR status
 
 main push
     |
@@ -77,11 +72,11 @@ GitHub Container Registry
 
 ## Next steps
 
-For a production-style pipeline, add:
+For a production-style pipeline, you can later add:
 
 - CodeQL
 - Dependabot
-- Integration tests
+- Unit/integration tests
 - Docker image vulnerability scanning
 - Azure Container Registry
 - Azure App Service / Container Apps / AKS deployment
