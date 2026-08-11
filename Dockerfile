@@ -1,9 +1,12 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["SmallTodoApi/SmallTodoApi.csproj", "SmallTodoApi/"]
-RUN dotnet restore "SmallTodoApi/SmallTodoApi.csproj"
+
+# Copy project file(s) from root
+COPY ["SmallTodoApi.csproj", "./"]
+RUN dotnet restore "SmallTodoApi.csproj"
+
+# Copy everything else and build
 COPY . .
-WORKDIR "/src/SmallTodoApi"
 RUN dotnet build "SmallTodoApi.csproj" -c Release -o /app/build
 RUN dotnet publish "SmallTodoApi.csproj" -c Release -o /app/publish
 
